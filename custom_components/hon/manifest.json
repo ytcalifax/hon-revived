@@ -3,7 +3,8 @@
   "name": "Haier hOn Revived",
   "codeowners": [
     "@mmalolepszy",
-    "@Andre0512"
+    "@Andre0512",
+    "@ytcalifax"
   ],
   "config_flow": true,
   "documentation": "https://github.com/mmalolepszy/hon-revived/",
@@ -12,5 +13,5 @@
   "requirements": [
     "pyhon-revived==0.19.2"
   ],
-  "version": "0.19.2"
+  "version": "0.19.3"
 }
