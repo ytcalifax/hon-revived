@@ -109,6 +109,7 @@ class HonLightEntity(HonEntity, LightEntity):
             self._attr_brightness = self.brightness
         else:
             light.value = light.max
+        self._device.data[self.entity_description.key.split(".")[-1]] = light.value
         await self._device.commands[self._command].send()
         self.schedule_update_ha_state()
 
@@ -118,6 +119,7 @@ class HonLightEntity(HonEntity, LightEntity):
         if not isinstance(light, HonParameterRange):
             raise ValueError()
         light.value = light.min
+        self._device.data[self.entity_description.key.split(".")[-1]] = light.min
         await self._device.commands[self._command].send()
         self.schedule_update_ha_state()
 

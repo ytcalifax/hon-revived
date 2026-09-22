@@ -56,6 +56,7 @@ class HonLockEntity(HonEntity, LockEntity):
         if type(setting) == HonParameter or setting is None:
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
+        self._device.data[self.entity_description.key] = 1
         self.schedule_update_ha_state()
         await self._device.commands["settings"].send()
         self.coordinator.async_set_updated_data({})
@@ -66,6 +67,7 @@ class HonLockEntity(HonEntity, LockEntity):
         if type(setting) == HonParameter:
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
+        self._device.data[self.entity_description.key] = 0
         self.schedule_update_ha_state()
         await self._device.commands["settings"].send()
         self.coordinator.async_set_updated_data({})

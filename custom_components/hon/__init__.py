@@ -1,4 +1,5 @@
 import logging
+from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
@@ -45,8 +46,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         entry, data={**entry.data, CONF_REFRESH_TOKEN: hon.api.auth.refresh_token}
     )
 
+    async def async_update_data():
+        for appliance in hon.appliances:
+            await appliance.update()
+        return {}
+
     coordinator: DataUpdateCoordinator[dict[str, Any]] = DataUpdateCoordinator(
-        hass, _LOGGER, name=DOMAIN
+        hass, _LOGGER, name=DOMAIN, update_interval=timedelta(seconds=15), update_method=async_update_data
     )
     hon.subscribe_updates(coordinator.async_set_updated_data)
 

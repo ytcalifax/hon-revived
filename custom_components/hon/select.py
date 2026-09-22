@@ -263,6 +263,7 @@ class HonConfigSelectEntity(HonEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         setting = self._device.settings[self.entity_description.key]
         setting.value = self._option_to_number(option, setting.values)
+        self._device.data[self.entity_description.key.split(".")[-1]] = setting.value
         self.coordinator.async_set_updated_data({})
 
     @callback
@@ -313,6 +314,7 @@ class HonSelectEntity(HonEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         setting = self._device.settings[self.entity_description.key]
         setting.value = self._option_to_number(option, setting.values)
+        self._device.data[self.entity_description.key.split(".")[-1]] = setting.value
         command = self.entity_description.key.split(".")[0]
         await self._device.commands[command].send()
         if command != "settings":
